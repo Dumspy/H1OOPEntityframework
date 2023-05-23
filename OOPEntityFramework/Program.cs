@@ -68,7 +68,7 @@ void SearchLogic()
     switch (selectedItem)
     {   
         case SearchTerms.Elev:
-            var student = db.People.First(p => p.Type == PersonType.Student && p.firstName.ToLower().Contains(searchTerm) || p.lastName.ToLower().Contains(searchTerm));    
+            var student = db.People.FirstOrDefault(p => p.Type == PersonType.Student && p.firstName.ToLower().Contains(searchTerm) || p.lastName.ToLower().Contains(searchTerm)) ?? null;    
             
             if (student == null)
             {
@@ -93,7 +93,7 @@ void SearchLogic()
             
             break;
         case SearchTerms.Lære:
-            var teacher = db.People.First(p => p.Type == PersonType.Teacher && p.firstName.ToLower().Contains(searchTerm) || p.lastName.ToLower().Contains(searchTerm));    
+            var teacher = db.People.FirstOrDefault(p => p.Type == PersonType.Teacher && p.firstName.ToLower().Contains(searchTerm) || p.lastName.ToLower().Contains(searchTerm)) ?? null;    
             
             if (teacher == null)
             {
@@ -131,51 +131,70 @@ void SearchLogic()
 
 void CUDLogic()
 {
+    const string title = "Hvad ønsker du at oprette";
     switch (MenuHandler(new[] { "Create", "Update", "Delete" }))
     {
         case 0:
-        {
-            using var db = new DBContext();
-            string courseName;
-            Console.WriteLine("Indtast navn på fag: ");
-            try
+            //switch (MenuHandler(new []{"Fag","Person","Tilmelding"})) // TODO
+            Console.Clear();
+            Console.SetCursorPosition((Console.WindowWidth - title.Length) / 2, Console.CursorTop);
+            Console.WriteLine(title);
+            switch (MenuHandler(new[] { "Fag" }))
             {
-                courseName = Console.ReadLine()?.ToLower()!;
-            }
-            catch
-            {
-                courseName = string.Empty;
-            }
-            string teacherName;
-            Console.WriteLine("Indtast navn på læren: ");
-            try
-            {
-                teacherName = Console.ReadLine()?.ToLower()!;
-            }
-            catch
-            {
-                teacherName = string.Empty;
-            }
-            var teacher = db.People.FirstOrDefault(p => (p.Type == PersonType.Teacher && p.firstName.ToLower().Contains(teacherName) || p.lastName.ToLower().Contains(teacherName))) ?? null;
-            if (teacher == null)
-            {
-                Console.WriteLine($"Fandt ingen lære ved navn: {teacherName}");
-                Console.ReadKey();
-                break;
-            }
 
-            db.Courses.Add(new Course() { Name = courseName, Teacher = teacher });
-            db.SaveChanges();
-            Console.WriteLine($"Nyt fag opret med navn: {courseName}, lære: {teacher.firstName} {teacher.lastName}");
-            Console.ReadKey();
+                case 0:
+                {
+                    using var db = new DBContext();
+                    string courseName;
+                    Console.WriteLine("Indtast navn på fag: ");
+                    try
+                    {
+                        courseName = Console.ReadLine()?.ToLower()!;
+                    }
+                    catch
+                    {
+                        courseName = string.Empty;
+                    }
 
+                    string teacherName;
+                    Console.WriteLine("Indtast navn på læren: ");
+                    try
+                    {
+                        teacherName = Console.ReadLine()?.ToLower()!;
+                    }
+                    catch
+                    {
+                        teacherName = string.Empty;
+                    }
+
+                    var teacher = db.People.FirstOrDefault(p =>
+                        (p.Type == PersonType.Teacher && p.firstName.ToLower().Contains(teacherName) ||
+                         p.lastName.ToLower().Contains(teacherName))) ?? null;
+                    if (teacher == null)
+                    {
+                        Console.WriteLine($"Fandt ingen lære ved navn: {teacherName}");
+                        Console.ReadKey();
+                        break;
+                    }
+
+                    db.Courses.Add(new Course() { Name = courseName, Teacher = teacher });
+                    db.SaveChanges();
+                    Console.WriteLine(
+                        $"Nyt fag opret med navn: {courseName}, lære: {teacher.firstName} {teacher.lastName}");
+                    Console.ReadKey();
+
+                    break;
+                }
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
             break;
-        }
         case 1:
             break;
         case 2:
             Console.Clear();
-            const string title = "Hvad ønsker du at slette";
             Console.SetCursorPosition((Console.WindowWidth - title.Length) / 2, Console.CursorTop);
             Console.WriteLine(title);
             //switch (MenuHandler(new []{"Fag","Person","Tilmelding"})) // TODO
