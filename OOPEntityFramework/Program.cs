@@ -82,13 +82,13 @@ void SearchLogic()
                 .Where(e => e.Student.Id == student.Id)
                 .ToList();
 
-            Console.WriteLine($"Elev: {student.firstName} {student.lastName}");
+            Console.WriteLine($"Elev: {student}");
             Console.WriteLine($"Tilmeldt {enrollments.Count} fag");
             
             foreach (var enrollment in enrollments)
             {
-                Console.WriteLine(enrollment.Course.Name);
-                Console.WriteLine($"    Lære: {enrollment.Course.Teacher.firstName} {enrollment.Course.Teacher.lastName}");
+                Console.WriteLine(enrollment.Course);
+                Console.WriteLine($"    Lære: {enrollment.Course.Teacher}");
             }
             
             break;
@@ -101,7 +101,7 @@ void SearchLogic()
                 break;
             }
             Console.Clear();
-            Console.WriteLine($"{teacher.firstName} {teacher.lastName}");
+            Console.WriteLine($"{teacher}");
             Console.WriteLine("Fag : Antal Elever");
             var courses = db.Enrollments.Where(e=> e.Course.Teacher == teacher).Include(e=> e.Student).GroupBy(e => e.Course);
             foreach (var item in courses)
@@ -109,7 +109,7 @@ void SearchLogic()
                 Console.WriteLine($"{item.Key.Name} : {item.Count()}");
                 foreach (var enrollment in item)
                 {
-                    Console.WriteLine($"    {enrollment.Student.firstName} {enrollment.Student.lastName}");
+                    Console.WriteLine($"    {enrollment.Student}");
                 }
             }
             
@@ -118,10 +118,10 @@ void SearchLogic()
             var course = db.Courses.Include(c => c.Teacher).First(c => c.Name.ToLower().Contains(searchTerm));
             var courseEnrollments = db.Enrollments.Include(e=> e.Student).Where(e => e.Course.Id == course.Id);
 
-            Console.WriteLine($"{course.Name} - {course.Teacher.firstName} {course.Teacher.lastName} - {courseEnrollments.Count()}");
+            Console.WriteLine($"{course} - {course.Teacher} - {courseEnrollments.Count()}");
             foreach (var item in courseEnrollments)
             {
-                Console.WriteLine($"    {item.Student.firstName} {item.Student.lastName}");
+                Console.WriteLine($"    {item.Student}");
             }
             break;
     }
@@ -180,7 +180,7 @@ void CUDLogic()
                     db.Courses.Add(new Course() { Name = courseName, Teacher = teacher });
                     db.SaveChanges();
                     Console.WriteLine(
-                        $"Nyt fag opret med navn: {courseName}, lære: {teacher.firstName} {teacher.lastName}");
+                        $"Nyt fag opret med navn: {courseName}, lære: {teacher}");
                     Console.ReadKey();
 
                     break;
@@ -214,14 +214,14 @@ void CUDLogic()
                     }
                     using var db = new DBContext();
                     var course = db.Courses.First(c => c.Name.ToLower().Contains(searchTerm));
-                    Console.WriteLine($"Fandt fag ved navn: {course.Name}");
+                    Console.WriteLine($"Fandt fag ved navn: {course}");
                     Console.WriteLine("Er du sikker på du vil slette");
                     switch (MenuHandler(new []{"Ja", "Nej"}))
                     {
                         case 0:
                             db.Remove(course);
                             db.SaveChanges();
-                            Console.WriteLine($"{course.Name} er nu sletted");
+                            Console.WriteLine($"{course} er nu sletted");
                             Console.ReadKey();
                             break;
                         case 1:

@@ -1265,19 +1265,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\felix\\.nuget\\packages\\": {}
+    "/Users/dispy/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\felix\\Documents\\Projects\\OOPEntityFramework\\OOPEntityFramework\\OOPEntityFramework.csproj",
+      "projectUniqueName": "/Users/dispy/Documents/Projects/OOPEntityFramework/OOPEntityFramework/OOPEntityFramework.csproj",
       "projectName": "OOPEntityFramework",
-      "projectPath": "C:\\Users\\felix\\Documents\\Projects\\OOPEntityFramework\\OOPEntityFramework\\OOPEntityFramework.csproj",
-      "packagesPath": "C:\\Users\\felix\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\felix\\Documents\\Projects\\OOPEntityFramework\\OOPEntityFramework\\obj\\",
+      "projectPath": "/Users/dispy/Documents/Projects/OOPEntityFramework/OOPEntityFramework/OOPEntityFramework.csproj",
+      "packagesPath": "/Users/dispy/.nuget/packages/",
+      "outputPath": "/Users/dispy/Documents/Projects/OOPEntityFramework/OOPEntityFramework/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\felix\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/dispy/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -1328,7 +1328,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
       }
     }
   }
